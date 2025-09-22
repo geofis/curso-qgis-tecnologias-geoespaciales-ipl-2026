@@ -1,0 +1,1 @@
+# curso-qgis-tecnologias-geoespaciales-ipl-2026
