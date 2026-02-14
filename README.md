@@ -46,6 +46,9 @@ aplicables a su trabajo cotidiano.
 
 ## Día 1. Fundamentos de QGIS y manejo y visualización de datos geoespaciales
 
+[Presentación de
+diapositivas](https://geofis.github.io/curso-qgis-tecnologias-geoespaciales-ipl-2026/dia1.html)
+
 ### Primera parte. Fundamentos de QGIS y manejo de datos geoespaciales
 
 - **Instalación y entorno QGIS**
