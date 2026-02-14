@@ -448,5 +448,5 @@ class: center, middle, inverse
 
 # Fin del Día 1
 
-Siguien día:  
+Siguiente día:  
 Modelos de terreno y visualización 3D
