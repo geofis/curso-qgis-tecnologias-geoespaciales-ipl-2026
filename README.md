@@ -1,7 +1,11 @@
 Curso introductorio a QGIS aplicado a la sismología y geología
 ================
 José Ramón Martínez-Batlle
-2025-09-22
+2026-02-14
+
+# Código QR de este repo
+
+![](qr.jpg)
 
 # Introducción
 
@@ -10,7 +14,7 @@ participantes (geólogos y sismólogos) en el uso de **QGIS** para la
 elaboración de mapas de sismos y temáticas geológicas, tanto en 2D como
 en 3D.
 
-La duración total estimada es de **5 días (jornadas de 4 horas, total 20
+La duración total estimada es de **3 días (jornadas de 4 horas, total 12
 horas)**.
 
 Se combinarán exposiciones breves con ejercicios prácticos
@@ -40,7 +44,9 @@ aplicables a su trabajo cotidiano.
 
 # Programa del curso
 
-## Día 1. Fundamentos de QGIS y manejo de datos geoespaciales
+## Día 1. Fundamentos de QGIS y manejo y visualización de datos geoespaciales
+
+### Primera parte. Fundamentos de QGIS y manejo de datos geoespaciales
 
 - **Instalación y entorno QGIS**
   - Revisión de la interfaz gráfica.
@@ -56,11 +62,16 @@ aplicables a su trabajo cotidiano.
 
 ------------------------------------------------------------------------
 
-## Día 2. Mapas temáticos y georreferenciación
+### Segunda parte. Mapas temáticos y georreferenciación
 
 - **Simbología**
   - Clasificación por atributos (magnitud, profundidad).
   - Uso de simbología SVG del USGS para mapas geológicos.
+    - Vía plugin:
+      <https://qgis-in-mineral-exploration.readthedocs.io/en/latest/source/how_to/USGS.html>.
+    - Fuente de símbolos: <https://github.com/rodreras/geologic_icons>.
+    - Ejemplo de uso:
+      <https://geofis.xyz/lm/index.php/view/map/?repository=geo250krd&project=geologico_gpkg>
 - **Etiquetado y composición de mapas**
   - Configuración de leyendas, escalas gráficas y títulos.
 - **Georreferenciación**
@@ -70,12 +81,14 @@ aplicables a su trabajo cotidiano.
   - Georreferenciar un mapa geológico escaneado.
   - Cargar un GeoPDF del SGN, convertirlo a ráster para mayor eficiencia
     de despliegue.
-  - Georreferenicas un mapa vectorial.
+  - Georreferenciar un mapa vectorial.
   - Superponerlo a la capa de sismos.
 
 ------------------------------------------------------------------------
 
-## Día 3. Modelos de terreno y curvas de nivel
+## Dia 2. Modelos de terreno, curvas de nivel y visualización 3D
+
+### Primera parte. Modelos de terreno y curvas de nivel
 
 - **Fuentes de modelos digitales de elevación (DEM)**
   - Descarga (Copernicus, SRTM).
@@ -91,7 +104,7 @@ aplicables a su trabajo cotidiano.
 
 ------------------------------------------------------------------------
 
-## Día 4. Visualización 3D y análisis espacial
+### Segunda parte. Visualización 3D y análisis espacial
 
 - **Ventana 3D de QGIS**
   - Configuración de terreno a partir de DEM.
@@ -106,7 +119,9 @@ aplicables a su trabajo cotidiano.
 
 ------------------------------------------------------------------------
 
-## Día 5. Extensiones y análisis avanzado
+## Día 3. Extensiones, scripting y compartición de datos
+
+### Primera parte. Extensiones y análisis avanzado
 
 - **Geoestadística e interpolación**
   - Breve introducción a superficies continuas (SAGA desde QGIS).
@@ -152,6 +167,7 @@ aplicables a su trabajo cotidiano.
 
 - Wu, Qiusheng (2025). Introducción a la Programación GIS Una Guía
   Práctica de Python para Herramientas Geoespaciales de Código Abierto.
+  <https://leanpub.com/gispro-es>
 - QGIS Documentation: <https://docs.qgis.org>
 - Olaya, V. (2020). Sistemas de Información Geográfica. Libro SIG
 - Hengl, T. (2009). *A Practical Guide to Geostatistical Mapping*.  

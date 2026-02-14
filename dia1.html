@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Curso QGIS aplicado a Sismología y Geología</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="José Ramón Martínez-Batlle" />
+    <meta name="date" content="2026-02-14" />
+    <script src="libs/header-attrs-2.27/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Curso QGIS aplicado a Sismología y Geología
+]
+.subtitle[
+## Día 1 · Fundamentos y visualización de datos geoespaciales
+]
+.author[
+### José Ramón Martínez-Batlle
+]
+.institute[
+### Observatorio Sismológico Loyola
+]
+.date[
+### 2026-02-14
+]
+
+---
+
+class: center, middle, inverse
+
+
+&lt;style type="text/css"&gt;
+/* Aumentar ligeramente la tipografía base */
+.remark-slide-content {
+  font-size: 150%;
+}
+
+/* Ajustes opcionales: listas y código un pelín más legibles */
+.remark-slide-content ul,
+.remark-slide-content ol {
+  font-size: 110%;
+}
+
+.remark-code, .remark-inline-code {
+  font-size: 110%;
+}
+&lt;/style&gt;
+
+# Día 1  
+## Fundamentos de QGIS y visualización de datos sísmicos
+
+### De datos crudos a mapas interpretables
+
+
+---
+
+## Objetivos del día
+
+- Comprender la lógica de trabajo en **QGIS**.
+- Comprender los CRS
+- Cargar datos vectoriales, ráster y tablas con coordenadas.
+- Visualizar eventos sísmicos desde CSV.
+- Aplicar simbología por atributos (magnitud y profundidad).
+- Georreferenciar mapas escaneados.
+- Elaborar un mapa temático listo para impresión.
+
+
+---
+
+## ¿Por qué QGIS en un observatorio sismológico?
+
+- Visualización rápida de epicentros.
+- Análisis espacial básico sin programación.
+- Integración de:
+  - DEM
+  - Mapas geológicos
+  - Fallas
+  - Infraestructura crítica
+- Exportación profesional de mapas.
+- Base para automatización futura (PyQGIS, Python, R).
+
+
+---
+
+class: inverse
+
+# 1) Fundamentos de QGIS
+
+---
+
+## La lógica de QGIS
+
+QGIS trabaja con:
+
+- **Proyecto (.qgz)**
+- **Capas**
+  - Vectoriales
+  - Ráster
+- **Sistema de referencia (CRS)**
+- **Estilos y simbología**
+
+👉 Un proyecto no contiene los datos:  
+solo las rutas y la configuración.
+
+
+---
+
+## Interfaz principal
+
+- Panel de capas
+- Panel navegador
+- Barra de herramientas
+- Ventana de mapa
+- Caja de procesamiento
+
+Principio clave:
+
+&gt; “Todo es una capa”
+
+---
+
+class: inverse
+
+# Comprender los CRS  
+## (Sistemas de Referencia de Coordenadas)
+
+- [Presentación de diapositivas útil: "Conceptos básicos de SIG y datos geoespaciales. Sistemas y marcos de referencia, sistemas de coordenadas, datum, proyección"](https://geofis.github.io/curso-tg-junio-2025/media/conceptos-basicos-sig-datos-geoespaciales.html)
+
+---
+
+## ¿Qué es un CRS?
+
+Un **Sistema de Referencia de Coordenadas (CRS)** define:
+
+- Cómo se interpretan las coordenadas
+- En qué sistema matemático se expresan
+- Cómo se proyecta la superficie curva de la Tierra en un plano
+
+Sin CRS, un punto no tiene significado espacial correcto.
+
+---
+
+## Dos grandes tipos
+
+### 1️⃣ Geográficos
+- Latitud / Longitud
+- Ejemplo: WGS84 (EPSG:4326)
+- Unidades: grados
+- Para sismología:
+  - Datos usualmente en WGS84
+  - Análisis de distancia → mejor en UTM
+
+### 2️⃣ Proyectados
+- Coordenadas planas (X, Y)
+- Ejemplo: UTM
+- Unidades: metros
+
+---
+
+## ¿Por qué es crítico en sismología?
+
+- Cálculo correcto de distancias epicentrales
+- Superposición adecuada con mapas geológicos
+- Análisis espacial sin desplazamientos erróneos
+- Evitar errores de reproyección
+
+⚠ Error típico: capas “desplazadas” por CRS mal definido.
+
+---
+
+## Regla práctica para el observatorio
+
+- Datos GNSS / catálogos sísmicos → usualmente WGS84
+- Análisis de distancia / buffers → usar UTM apropiado
+- Siempre verificar:
+  - CRS del proyecto
+  - CRS de cada capa
+
+---
+
+class: inverse
+
+# 2) Carga de datos geoespaciales
+
+---
+
+## Tipos de datos
+
+### Vectoriales
+- Shapefile
+- GeoPackage
+- GeoJSON
+
+### Ráster
+- GeoTIFF
+- DEM
+- WMS / WMTS
+
+### Tablas
+- CSV con latitud/longitud
+
+---
+
+## Ejercicio 1  
+### Cargar eventos sísmicos desde CSV
+
+1. Abrir QGIS
+2. Agregar capa de texto delimitado
+3. Definir:
+   - Campo X = longitud
+   - Campo Y = latitud
+4. CRS = WGS84
+
+Resultado esperado:
+
+Mapa base + puntos de epicentros
+
+---
+
+## Problemas comunes
+
+- Lat/long invertidos
+- CRS incorrecto
+- Separador decimal incorrecto
+- Codificación del archivo
+
+👉 Siempre verificar propiedades de capa.
+
+---
+
+class: inverse
+
+# 3) Simbología temática
+
+---
+
+## Clasificación por magnitud
+
+Opciones:
+
+- Graduado
+- Tamaño proporcional
+- Intervalos naturales (Jenks). Particiones que minimizan la varianza intraclase y maximizan la varianza interclase
+
+Ejemplo:
+
+- M &lt; 3
+- 3–4
+- 4–5
+- \&gt; 5
+
+
+---
+
+## Clasificación por profundidad
+
+- Superficiales
+- Intermedios
+- Profundos
+
+Visualización útil:
+
+- Color → profundidad
+- Tamaño → magnitud
+
+Esto permite lectura multivariable.
+
+
+---
+
+## Uso de simbología SVG
+
+Para mapas geológicos:
+
+- Librerías USGS
+- Íconos geológicos SVG
+- Fallas y estructuras
+
+Ventaja:
+
+Representación profesional estandarizada.
+
+
+---
+
+## Uso de simbología SVG (cont.)
+
+- Vía plugin: https://qgis-in-mineral-exploration.readthedocs.io/en/latest/source/how_to/USGS.html.
+- Fuente de símbolos: https://github.com/rodreras/geologic_icons.
+- Ejemplo de uso: https://geofis.xyz/lm/index.php/view/map/?repository=geo250krd&amp;project=geologico_gpkg
+
+---
+
+class: inverse
+
+# 4) Composición de mapas
+
+---
+
+## Diseñador de impresión
+
+Elementos clave:
+
+- Título
+- Leyenda
+- Escala gráfica
+- Norte
+- Fuente de datos
+- CRS
+
+Un mapa técnico debe ser reproducible.
+
+
+---
+
+## Ejercicio 2  
+### Elaborar mapa temático
+
+Requisitos:
+
+- Clasificación por magnitud
+- Clasificación por profundidad
+- Leyenda clara
+- Escala adecuada
+- Exportación a PDF
+
+
+---
+
+class: inverse
+
+# 5) Georreferenciación
+
+---
+
+## ¿Qué es georreferenciar?
+
+Asignar coordenadas reales a una imagen escaneada.
+
+Ejemplos:
+
+- Mapas geológicos antiguos
+- Cartografía histórica
+- GeoPDF convertidos a ráster
+
+
+---
+
+## Proceso en QGIS
+
+1. Abrir Georreferenciador
+2. Cargar imagen
+3. Añadir puntos de control
+4. Seleccionar transformación
+5. Definir CRS
+6. Generar ráster georreferenciado
+
+
+---
+
+## Ejercicio 3
+
+- Georreferenciar un mapa geológico escaneado.
+- Superponerlo con:
+  - Epicentros
+  - DEM
+  - Fallas
+
+Discusión:
+
+¿Coinciden sismos con estructuras?
+
+
+---
+
+class: inverse
+
+# Integración del día
+
+---
+
+## Flujo de trabajo aprendido
+
+CSV → Capa vectorial  
+→ Simbología temática  
+→ Composición de mapa  
+→ Integración con geología  
+→ Exportación final
+
+Este flujo es reproducible.
+
+
+---
+
+# Aplicación directa al Observatorio
+
+- Mapas rápidos post-evento.
+- Clasificación automática de eventos.
+- Mapas para boletines técnicos.
+- Visualización comparativa histórica.
+- Integración con modelos de terreno.
+
+
+---
+
+class: inverse
+
+# Sugerencias y validación de prácticas
+
+---
+
+## Evaluación de tus ejercicios propuestos
+
+Tus prácticas son **correctas y pertinentes**.
+
+Especialmente adecuadas:
+
+✔ Carga desde CSV  
+✔ Clasificación por magnitud  
+✔ Georreferenciación  
+✔ Uso de SVG geológicos  
+
+Son altamente aplicables al entorno real del observatorio.
+
+
+---
+
+## Sugerencias adicionales (opcional)
+
+### 1️⃣ Filtro temporal de eventos
+- Filtrar sismos de los últimos 30 días.
+- Exportar capa filtrada.
+
+### 2️⃣ Comparación antes/después
+- Crear dos mapas con distintos periodos.
+- Analizar visualmente cambios espaciales.
+
+### 3️⃣ Exportación profesional
+- Generar plantilla estándar del observatorio.
+
+Esto fortalece aplicabilidad inmediata.
+
+
+---
+
+## Resultado esperado al finalizar el día
+
+Cada participante debería poder:
+
+- Cargar datos sísmicos.
+- Aplicar simbología temática profesional.
+- Georreferenciar mapas.
+- Exportar un mapa listo para publicación.
+
+Sin necesidad de programación.
+
+
+---
+
+class: center, middle, inverse
+
+# Fin del Día 1
+
+Siguien día:  
+Modelos de terreno y visualización 3D
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+  "highlightStyle": "github",
+  "highlightLines": true,
+  "countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
