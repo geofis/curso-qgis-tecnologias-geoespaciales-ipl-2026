@@ -1,0 +1,522 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\ifLuaTeX
+  \usepackage{luacolor}
+  \usepackage[soul]{lua-ul}
+\else
+  \usepackage{soul}
+\fi
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage[normalem]{ulem}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Curso introductorio a QGIS aplicado a la sismología y geología},
+  pdfauthor={José Ramón Martínez-Batlle},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Curso introductorio a QGIS aplicado a la sismología y geología}
+\author{José Ramón Martínez-Batlle}
+\date{2026-02-21}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\section{Código QR de este repo}\label{cuxf3digo-qr-de-este-repo}
+
+\includegraphics{qr.jpg}
+
+\section{Introducción}\label{introducciuxf3n}
+
+Este curso tiene como objetivo capacitar a un grupo reducido de participantes (geólogos y sismólogos) en el uso de \textbf{QGIS} para la elaboración de mapas de sismos y temáticas geológicas, tanto en 2D como en 3D.
+
+La duración total estimada es de \textbf{3 días (jornadas de 4 horas, total 12 horas)}.
+
+Se combinarán exposiciones breves con ejercicios prácticos reproducibles, de manera que los participantes adquieran destrezas aplicables a su trabajo cotidiano.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Objetivos}\label{objetivos}
+
+\begin{itemize}
+\tightlist
+\item
+  Aprender a cargar, visualizar y organizar datos georreferenciados en QGIS (vectoriales, ráster, tablas con coordenadas). - Generar mapas de sismos clasificados por magnitud, profundidad y otros parámetros.
+\item
+  Construir curvas de nivel y superficies de terreno a partir de modelos digitales de elevación (DEM).
+\item
+  Explorar opciones de visualización 3D y elaboración de perfiles topográficos.
+\item
+  Usar simbología especializada (SVG del USGS, simbología geológica y sismológica).
+\item
+  Introducir el manejo de \textbf{GeoPackages} y prácticas para compartir información espacial.
+\item
+  Explorar brevemente el uso de scripting en Python (PyQGIS) y herramientas complementarias en R/Python para análisis espacial avanzado.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Fuente de datos}\label{fuente-de-datos}
+
+\href{https://drive.google.com/drive/folders/19EwWTFqjO99mUOBab8qtcBImLF_MQ1Dq?usp=drive_link}{Visitar esta carpeta Drive}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Programa del curso}\label{programa-del-curso}
+
+\subsection{Día 1. Fundamentos de QGIS y manejo y visualización de datos geoespaciales}\label{duxeda-1.-fundamentos-de-qgis-y-manejo-y-visualizaciuxf3n-de-datos-geoespaciales}
+
+\href{https://geofis.github.io/curso-qgis-tecnologias-geoespaciales-ipl-2026/dia1.html}{Presentación de diapositivas}
+
+\subsubsection{Primera parte. Fundamentos de QGIS y manejo de datos geoespaciales}\label{primera-parte.-fundamentos-de-qgis-y-manejo-de-datos-geoespaciales}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Instalación y entorno QGIS}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Revisión de la interfaz gráfica.
+  \item
+    Panel de capas, navegador y estilos.
+  \end{itemize}
+\item
+  \textbf{Fuentes de datos}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Vectoriales (Shapefile, GeoPackage).
+  \item
+    Ráster (GeoTIFF, WMS/WMTS).
+  \item
+    Tablas con coordenadas (CSV/TSV).
+  \end{itemize}
+\item
+  \textbf{Ejercicio práctico:}
+
+  \begin{itemize}
+  \tightlist
+  \item[$\boxtimes$]
+    \st{Cargar archivos vectoriales shapefiles/geopackages de las tres primitivas comunes: puntos, líneas y polígonos.}
+  \item[$\boxtimes$]
+    \st{Cargar archivos rásters.}
+  \item
+    Cargar un conjunto de eventos sísmicos desde CSV (coordenadas lat/long).
+  \item
+    Cargar una fuente WMS.
+  \item
+    Visualización básica en mapa, composicion.
+  \item
+    Hablemos de OSGeoLive (\url{https://live.osgeo.org}).
+  \item
+    Sesión de retroalimentación, problemas aportados por participantes.
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Dia 2. Atributos, simbología, georreferenciación. Intro a modelos de terreno, curvas de nivel y visualización 3D}\label{dia-2.-atributos-simbologuxeda-georreferenciaciuxf3n.-intro-a-modelos-de-terreno-curvas-de-nivel-y-visualizaciuxf3n-3d}
+
+\subsubsection{Primera parte. Atributos, simbología y georreferenciación}\label{primera-parte.-atributos-simbologuxeda-y-georreferenciaciuxf3n}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Ejercicio práctico:}
+
+  \begin{itemize}
+  \item
+    \textbf{Tabla de atributos}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Creación de tabla de atributos.
+    \item
+      Edición y gestión de atributos.
+    \end{itemize}
+  \item
+    \textbf{Calculadora de campos}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Creación de campos calculados (ejemplo: días desde el sismo más antiguo).
+    \end{itemize}
+  \item
+    \textbf{Selección por atributos.}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Vía tabla de atributos.
+
+      \begin{itemize}
+      \tightlist
+      \item
+        (``date''\textless=`2020/2/20')
+      \item
+        (``date''\textgreater{}`2020/2/20')
+      \end{itemize}
+    \item
+      Vía simbología.
+    \end{itemize}
+  \item
+    \textbf{Selección por ubicación.}
+  \item
+    \textbf{Calculadora de campos}. Clasificación por campos calculados
+
+\begin{verbatim}
+if(
+  "date" IS NULL,
+  NULL,
+  day(
+    "date" - minimum("date", filter:= "date" IS NOT NULL)
+  )
+)
+\end{verbatim}
+  \item
+    \textbf{Simbología}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Clasificación por atributos (magnitud, profundidad).
+    \item
+      Uso de simbología SVG del USGS para mapas geológicos.
+
+      \begin{itemize}
+      \tightlist
+      \item
+        Vía plugin: \url{https://qgis-in-mineral-exploration.readthedocs.io/en/latest/source/how_to/USGS.html}.
+      \item
+        Fuente de símbolos: \url{https://github.com/rodreras/geologic_icons}.
+      \item
+        Ejemplo de uso: \url{https://geofis.xyz/lm/index.php/view/map/?repository=geo250krd&project=geologico_gpkg}
+      \end{itemize}
+    \end{itemize}
+  \item
+    \textbf{Etiquetado y composición de mapas}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Configuración de leyendas, escalas gráficas y títulos.
+    \end{itemize}
+  \item
+    \textbf{Georreferenciación}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Uso del georreferenciador de QGIS (para ráster y mapas antiguos).
+    \item
+      Georreferenciar un mapa geológico escaneado.
+    \item
+      Cargar un GeoPDF del SGN, convertirlo a ráster para mayor eficiencia de despliegue.
+    \item
+      Georreferenciar un mapa vectorial.
+    \item
+      Superponerlo a la capa de sismos.
+    \item
+      Sesión de retroalimentación, problemas aportados por participantes.
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Segunda parte. Intro modelos de terreno y curvas de nivel}\label{segunda-parte.-intro-modelos-de-terreno-y-curvas-de-nivel}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Fuentes de modelos digitales de elevación (DEM)}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Descarga (Copernicus, SRTM).
+  \item
+    Carga desde archivos o servicios web.\\
+  \end{itemize}
+\item
+  \textbf{Generación de isolínes/curvas de nivel}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    A partir de DEM (herramienta de procesamiento QGIS/GDAL).\\
+  \item
+    ¿Qué pasaría si necesito curvas de nivel (o isolíneas en general) a partir de puntos?
+  \end{itemize}
+\item
+  \textbf{Perfiles topográficos}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Uso de \emph{Profile tool} o herramienta nativa de QGIS.\\
+  \end{itemize}
+\item
+  \textbf{Ejercicio práctico:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Crear curvas de nivel cada 20 m en un área de interés.
+  \item
+    Cargar fuentes WMS que contengan las curvas de nivel.
+  \item
+    Comparar perfiles topográficos de zonas epicentrales.
+  \item
+    Sesión de retroalimentación, problemas aportados por participantes.
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsubsection{Tercera parte. Visualización 3D y análisis espacial}\label{tercera-parte.-visualizaciuxf3n-3d-y-anuxe1lisis-espacial}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Ventana 3D de QGIS}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Configuración de terreno a partir de DEM.
+  \item
+    Extrusión de capas vectoriales.
+  \item
+    Exploración de estabilidad y limitaciones.
+  \end{itemize}
+\item
+  \textbf{Análisis espacial básico}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Buffer de epicentros.
+  \item
+    Densidad de puntos (heatmaps).
+  \end{itemize}
+\item
+  \textbf{Ejercicio práctico:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Visualizar un mapa 3D con epicentros clasificados por profundidad.
+  \item
+    Generar un mapa de calor de sismos en 2D.
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Día 3. Extensiones, scripting y compartición de datos}\label{duxeda-3.-extensiones-scripting-y-comparticiuxf3n-de-datos}
+
+\subsubsection{Primera parte. Extensiones y análisis avanzado}\label{primera-parte.-extensiones-y-anuxe1lisis-avanzado}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Geoestadística e interpolación}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Breve introducción a superficies continuas (GRASS GIS, SAGA, ambos desde QGIS).
+  \end{itemize}
+\item
+  \textbf{Scripting en QGIS (PyQGIS)}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Uso de la consola de Python en QGIS.
+  \item
+    Ejemplo: filtrar sismos por magnitud y exportar resultados.
+  \end{itemize}
+\item
+  \textbf{Herramientas externas}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    R: análisis espacial, geoestadística, patrones de sismos.
+  \item
+    Python: una mirada (``muy por encima) a geopandas, obspy, matplotlib para análisis sísmico.
+  \end{itemize}
+\item
+  \textbf{Compartición de datos}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Guardado en GeoPackage.
+  \item
+    Compartir en la nube.
+  \item
+    HTML + JS: Biblioteca leaflet.
+  \item
+    Breve mención a servidores y alternativas de publicación (QGIS Server, Lizmap).\\
+  \end{itemize}
+\item
+  \textbf{Ejercicio práctico:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Exportar un proyecto a GeoPackage y compartirlo.\\
+  \item
+    Generar un script simple en PyQGIS para automatizar un mapa temático.
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Metodología}\label{metodologuxeda}
+
+\begin{itemize}
+\tightlist
+\item
+  Exposiciones breves (20--30 min) con ejemplos prácticos.\\
+\item
+  Ejercicios guiados paso a paso.\\
+\item
+  Espacio para preguntas y exploración autónoma de datos.\\
+\item
+  Recomendación de recursos abiertos (manuales, plugins, datasets).
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Evaluación y cierre}\label{evaluaciuxf3n-y-cierre}
+
+\begin{itemize}
+\tightlist
+\item
+  No habrá evaluación formal.\\
+\item
+  Se solicitará a cada participante elaborar un \textbf{mapa final} de sismos con curvas de nivel y simbología geológica, y (opcionalmente) una visualización 3D.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Bibliografía sugerida}\label{bibliografuxeda-sugerida}
+
+\begin{itemize}
+\tightlist
+\item
+  Wu, Qiusheng (2025). Introducción a la Programación GIS Una Guía Práctica de Python para Herramientas Geoespaciales de Código Abierto. \url{https://leanpub.com/gispro-es}
+\item
+  QGIS Documentation: \url{https://docs.qgis.org}
+\item
+  Olaya, V. (2020). Sistemas de Información Geográfica. Libro SIG
+\item
+  Hengl, T. (2009). \emph{A Practical Guide to Geostatistical Mapping}.\\
+\item
+  Dorman, M., Graser, A., Nowosad, J., \& Lovelace, R. (2025). Geocomputation with Python. CRC Press. \url{https://py.geocompx.org/}
+\item
+  Lovelace, R., Nowosad, J., \& Muenchow, J. (2019). Geocomputation with R. CRC Press. \url{https://r.geocompx.org/}
+\item
+  USGS Symbol Library:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \url{https://github.com/afrigeri/geologic-symbols-qgis}
+  \item
+    \url{https://github.com/BC-Consulting/FGDC-4-QGIS}
+  \item
+    \url{https://github.com/rodreras/geologic_icons}
+  \item
+    \url{https://davenquinn.com/projects/geologic-patterns/}
+  \item
+    \url{https://sourceforge.net/projects/qgisgeologysymbology/}
+  \end{itemize}
+\item
+  Obspy: A Python Toolbox for Seismology (\url{https://docs.obspy.org})\\
+\item
+  Geopandas: Python tools for geographic data (\url{https://geopandas.org})
+\item
+  Leaflet: An open-source JavaScript library for mobile-friendly interactive maps (\url{https://leafletjs.com})
+\end{itemize}
+
+\end{document}

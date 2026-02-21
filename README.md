@@ -1,7 +1,7 @@
 Curso introductorio a QGIS aplicado a la sismología y geología
 ================
 José Ramón Martínez-Batlle
-2026-02-14
+2026-02-21
 
 # Código QR de este repo
 
@@ -42,6 +42,13 @@ aplicables a su trabajo cotidiano.
 
 ------------------------------------------------------------------------
 
+# Fuente de datos
+
+[Visitar esta carpeta
+Drive](https://drive.google.com/drive/folders/19EwWTFqjO99mUOBab8qtcBImLF_MQ1Dq?usp=drive_link)
+
+------------------------------------------------------------------------
+
 # Programa del curso
 
 ## Día 1. Fundamentos de QGIS y manejo y visualización de datos geoespaciales
@@ -59,55 +66,98 @@ diapositivas](https://geofis.github.io/curso-qgis-tecnologias-geoespaciales-ipl-
   - Ráster (GeoTIFF, WMS/WMTS).
   - Tablas con coordenadas (CSV/TSV).
 - **Ejercicio práctico:**
+  - [x] ~~Cargar archivos vectoriales shapefiles/geopackages de las tres
+    primitivas comunes: puntos, líneas y polígonos.~~
+  - [x] ~~Cargar archivos rásters.~~
   - Cargar un conjunto de eventos sísmicos desde CSV (coordenadas
     lat/long).
-  - Visualización básica en mapa.
+  - Cargar una fuente WMS.
+  - Visualización básica en mapa, composicion.
+  - Hablemos de OSGeoLive (<https://live.osgeo.org>).
+  - Sesión de retroalimentación, problemas aportados por participantes.
 
 ------------------------------------------------------------------------
 
-### Segunda parte. Mapas temáticos y georreferenciación
+## Dia 2. Atributos, simbología, georreferenciación. Intro a modelos de terreno, curvas de nivel y visualización 3D
 
-- **Simbología**
-  - Clasificación por atributos (magnitud, profundidad).
-  - Uso de simbología SVG del USGS para mapas geológicos.
-    - Vía plugin:
-      <https://qgis-in-mineral-exploration.readthedocs.io/en/latest/source/how_to/USGS.html>.
-    - Fuente de símbolos: <https://github.com/rodreras/geologic_icons>.
-    - Ejemplo de uso:
-      <https://geofis.xyz/lm/index.php/view/map/?repository=geo250krd&project=geologico_gpkg>
-- **Etiquetado y composición de mapas**
-  - Configuración de leyendas, escalas gráficas y títulos.
-- **Georreferenciación**
-  - Uso del georreferenciador de QGIS (para ráster y mapas antiguos).
-  - Carga de shapefiles/CSV con coordenadas.
+### Primera parte. Atributos, simbología y georreferenciación
+
 - **Ejercicio práctico:**
-  - Georreferenciar un mapa geológico escaneado.
-  - Cargar un GeoPDF del SGN, convertirlo a ráster para mayor eficiencia
-    de despliegue.
-  - Georreferenciar un mapa vectorial.
-  - Superponerlo a la capa de sismos.
+  - **Tabla de atributos**
 
-------------------------------------------------------------------------
+    - Creación de tabla de atributos.
+    - Edición y gestión de atributos.
 
-## Dia 2. Modelos de terreno, curvas de nivel y visualización 3D
+  - **Calculadora de campos**
 
-### Primera parte. Modelos de terreno y curvas de nivel
+    - Creación de campos calculados (ejemplo: días desde el sismo más
+      antiguo).
+
+  - **Selección por atributos.**
+
+    - Vía tabla de atributos.
+      - (“date”\<=‘2020/2/20’)
+      - (“date”\>‘2020/2/20’)
+    - Vía simbología.
+
+  - **Selección por ubicación.**
+
+  - **Calculadora de campos**. Clasificación por campos calculados
+
+        if(
+          "date" IS NULL,
+          NULL,
+          day(
+            "date" - minimum("date", filter:= "date" IS NOT NULL)
+          )
+        )
+
+  - **Simbología**
+
+    - Clasificación por atributos (magnitud, profundidad).
+    - Uso de simbología SVG del USGS para mapas geológicos.
+      - Vía plugin:
+        <https://qgis-in-mineral-exploration.readthedocs.io/en/latest/source/how_to/USGS.html>.
+      - Fuente de símbolos:
+        <https://github.com/rodreras/geologic_icons>.
+      - Ejemplo de uso:
+        <https://geofis.xyz/lm/index.php/view/map/?repository=geo250krd&project=geologico_gpkg>
+
+  - **Etiquetado y composición de mapas**
+
+    - Configuración de leyendas, escalas gráficas y títulos.
+
+  - **Georreferenciación**
+
+    - Uso del georreferenciador de QGIS (para ráster y mapas antiguos).
+    - Georreferenciar un mapa geológico escaneado.
+    - Cargar un GeoPDF del SGN, convertirlo a ráster para mayor
+      eficiencia de despliegue.
+    - Georreferenciar un mapa vectorial.
+    - Superponerlo a la capa de sismos.
+    - Sesión de retroalimentación, problemas aportados por
+      participantes.
+
+### Segunda parte. Intro modelos de terreno y curvas de nivel
 
 - **Fuentes de modelos digitales de elevación (DEM)**
   - Descarga (Copernicus, SRTM).
   - Carga desde archivos o servicios web.  
-- **Generación de curvas de nivel**
+- **Generación de isolínes/curvas de nivel**
   - A partir de DEM (herramienta de procesamiento QGIS/GDAL).  
+  - ¿Qué pasaría si necesito curvas de nivel (o isolíneas en general) a
+    partir de puntos?
 - **Perfiles topográficos**
   - Uso de *Profile tool* o herramienta nativa de QGIS.  
 - **Ejercicio práctico:**
   - Crear curvas de nivel cada 20 m en un área de interés.
   - Cargar fuentes WMS que contengan las curvas de nivel.
   - Comparar perfiles topográficos de zonas epicentrales.
+  - Sesión de retroalimentación, problemas aportados por participantes.
 
 ------------------------------------------------------------------------
 
-### Segunda parte. Visualización 3D y análisis espacial
+### Tercera parte. Visualización 3D y análisis espacial
 
 - **Ventana 3D de QGIS**
   - Configuración de terreno a partir de DEM.
@@ -127,7 +177,8 @@ diapositivas](https://geofis.github.io/curso-qgis-tecnologias-geoespaciales-ipl-
 ### Primera parte. Extensiones y análisis avanzado
 
 - **Geoestadística e interpolación**
-  - Breve introducción a superficies continuas (SAGA desde QGIS).
+  - Breve introducción a superficies continuas (GRASS GIS, SAGA, ambos
+    desde QGIS).
 - **Scripting en QGIS (PyQGIS)**
   - Uso de la consola de Python en QGIS.
   - Ejemplo: filtrar sismos por magnitud y exportar resultados.
