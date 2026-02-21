@@ -42,10 +42,16 @@ aplicables a su trabajo cotidiano.
 
 ------------------------------------------------------------------------
 
-# Fuente de datos
+# URL de interés
 
-[Visitar esta carpeta
-Drive](https://drive.google.com/drive/folders/19EwWTFqjO99mUOBab8qtcBImLF_MQ1Dq?usp=drive_link)
+Ruta del repo de GitHub (este repo):
+<https://github.com/geofis/curso-qgis-tecnologias-geoespaciales-ipl-2026>
+
+Archivos “livianos”:
+<https://drive.google.com/drive/folders/19EwWTFqjO99mUOBab8qtcBImLF_MQ1Dq?usp=drive_link>
+
+Archivos “pesados”:
+<https://drive.google.com/drive/folders/13l-37QSDm55nC5tOpYivrTgl-J5cDTsr?usp=drive_link>
 
 ------------------------------------------------------------------------
 
